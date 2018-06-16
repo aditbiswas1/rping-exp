@@ -25,7 +25,6 @@ config :riak_core,
   handoff_port: 8099,
   handoff_ip: '127.0.0.1',
   schema_dirs: ['priv'],
-  ring_creation_size: 12,
   vnode_inactivity_timeout: 1000
 
 config :lager,
@@ -39,4 +38,4 @@ config :sasl,
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env}.exs"
+import_config "#{Mix.env}.exs"

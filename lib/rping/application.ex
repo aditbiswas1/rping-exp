@@ -4,17 +4,16 @@ defmodule Rping.Application do
   @moduledoc false
 
   use Application
+  require Logger
 
   def start(_type, _args) do
-    # List all child processes to be supervised
-    children = [
-      # Starts a worker by calling: Rping.Worker.start_link(arg)
-      # {Rping.Worker, arg},
-    ]
-
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Rping.Supervisor]
-    Supervisor.start_link(children, opts)
+    case Rping.Supervisor.start_link do
+      {:ok, pid} ->
+        :ok = :riak_core.register(vnode_module: Rping.VNode)
+        :ok = :riak_core_node_watcher.service_up(Rping.Service, self())
+        {:ok, pid}
+      {:error, reason} ->
+        Logger.error("Unable to start Rping Supervisor because #{inspect reason}")
+    end
   end
 end

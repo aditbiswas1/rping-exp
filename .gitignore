@@ -22,8 +22,8 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 rping-*.tar
 
-data
+data*
 deps
 log
-ring_data_dir
+ring_data_dir*
 .DS_Store
